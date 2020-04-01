@@ -35,8 +35,11 @@ public class SubscriptionService {
                         "No User found by id: " + subscriptionDTO.getPoster()));
 
     subscription.setUser(user);
+    final var savedSubscription =
+        subscriptionMapper.asDTO(subscriptionRepository.save(subscription));
 
-    return subscriptionMapper.asDTO(subscriptionRepository.save(subscription));
+    savedSubscription.setPoster(user.getUsername());
+    return savedSubscription;
   }
 
   public List<SubscriptionDTO> findByPoster(String poster) {
@@ -44,6 +47,7 @@ public class SubscriptionService {
 
     return byPoster.stream()
         .map(subscriptionMapper::asDTO)
+        .peek(subscriptionDTO -> subscriptionDTO.setPoster(poster))
         .collect(Collectors.toUnmodifiableList());
   }
 }
