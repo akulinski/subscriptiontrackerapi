@@ -25,8 +25,6 @@ public class Subscription {
 
   @Column private Integer period;
 
-  @Column private String poster;
-
   @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 }

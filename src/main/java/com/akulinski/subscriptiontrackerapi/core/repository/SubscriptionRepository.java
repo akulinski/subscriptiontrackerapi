@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface SubscriptionRepository extends CrudRepository<Subscription, UUID> {
-  List<Subscription> findByPoster(String poster);
+  List<Subscription> findByUser_Username(String poster);
 }

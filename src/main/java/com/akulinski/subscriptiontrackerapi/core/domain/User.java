@@ -2,9 +2,7 @@ package com.akulinski.subscriptiontrackerapi.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,8 +12,10 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity(name = "user")
-@Data
+@Entity(name = "app_user")
+@Getter
+@Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
@@ -32,8 +32,9 @@ public class User implements UserDetails {
   @NotEmpty @NotNull @JsonIgnore @OneToMany private Set<Authority> authorities;
 
   @Override
+  @JsonIgnore
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return authorities;
   }
 
   @Override
@@ -59,5 +60,14 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+            "id=" + id +
+            ", passwordHash='" + passwordHash + '\'' +
+            ", username='" + username + '\'' +
+            '}';
   }
 }
