@@ -1,0 +1,23 @@
+version: '2'
+services:
+  subscriptiontrackerapi-postgresql:
+    image: postgres:12.2
+    #volumes:
+    #     - ./postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=subscriptiontrackerapi
+      - POSTGRES_PASSWORD=subscriptiontrackerapi
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    depends_on:
+      - subscriptiontrackerapi-postgresql
+    ports:
+      - 5050:80
+    ## you can change pgAdmin default username/password with below environment variables
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@r8me.com
+      PGADMIN_DEFAULT_PASSWORD: admin
