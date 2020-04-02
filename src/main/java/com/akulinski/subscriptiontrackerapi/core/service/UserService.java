@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -29,6 +30,7 @@ public class UserService {
   public UserDTO create(UserDTO userDTO) {
     final var user = userMapper.asDO(userDTO);
     user.setPasswordHash(passwordEncoder.encode(userDTO.getPassword()));
+
     final var authority = new Authority();
     authority.setAuthorityType(AuthorityType.USER);
     authorityRepository.save(authority);
@@ -38,5 +40,10 @@ public class UserService {
     final var save = userRepository.save(user);
 
     return userMapper.asDTO(save);
+  }
+
+  public void delete(String id) {
+    final var uuid = UUID.fromString(id);
+    userRepository.deleteById(uuid);
   }
 }

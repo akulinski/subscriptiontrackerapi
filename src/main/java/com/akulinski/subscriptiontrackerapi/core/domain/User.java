@@ -2,20 +2,23 @@ package com.akulinski.subscriptiontrackerapi.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity(name = "app_user")
 @Getter
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
@@ -64,10 +67,30 @@ public class User implements UserDetails {
 
   @Override
   public String toString() {
-    return "User{" +
-            "id=" + id +
-            ", passwordHash='" + passwordHash + '\'' +
-            ", username='" + username + '\'' +
-            '}';
+    return "User{"
+        + "id="
+        + id
+        + ", passwordHash='"
+        + passwordHash
+        + '\''
+        + ", username='"
+        + username
+        + '\''
+        + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof User)) return false;
+    User user = (User) o;
+    return Objects.equals(getId(), user.getId())
+        && Objects.equals(getPasswordHash(), user.getPasswordHash())
+        && Objects.equals(getUsername(), user.getUsername());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId(), getPasswordHash(), getUsername());
   }
 }
