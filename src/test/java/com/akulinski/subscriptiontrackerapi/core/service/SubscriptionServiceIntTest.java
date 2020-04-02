@@ -1,6 +1,5 @@
 package com.akulinski.subscriptiontrackerapi.core.service;
 
-import com.akulinski.subscriptiontrackerapi.PostgresqlContainerExtension;
 import com.akulinski.subscriptiontrackerapi.core.repository.SubscriptionRepository;
 import com.akulinski.subscriptiontrackerapi.core.repository.UserRepository;
 import com.akulinski.subscriptiontrackerapi.core.service.dto.SubscriptionDTO;
@@ -8,7 +7,6 @@ import com.akulinski.subscriptiontrackerapi.core.service.dto.UserDTO;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -18,7 +16,6 @@ import java.util.stream.Stream;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application.yaml")
-@ExtendWith(PostgresqlContainerExtension.class)
 class SubscriptionServiceIntTest {
 
   @Autowired private SubscriptionRepository subscriptionRepository;
