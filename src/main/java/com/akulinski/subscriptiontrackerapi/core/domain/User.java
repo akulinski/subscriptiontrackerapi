@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -32,7 +34,12 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Set<Subscription> subscriptions;
 
-  @NotEmpty @NotNull @JsonIgnore @OneToMany private Set<Authority> authorities;
+  @NotEmpty
+  @NotNull
+  @JsonIgnore
+  @OneToMany
+  @Fetch(value = FetchMode.JOIN)
+  private Set<Authority> authorities;
 
   @Override
   @JsonIgnore

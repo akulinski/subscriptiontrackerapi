@@ -6,13 +6,13 @@ import com.akulinski.subscriptiontrackerapi.core.repository.AuthorityRepository;
 import com.akulinski.subscriptiontrackerapi.core.repository.UserRepository;
 import com.akulinski.subscriptiontrackerapi.core.service.dto.UserDTO;
 import com.akulinski.subscriptiontrackerapi.core.service.mapper.UserMapper;
+import com.akulinski.subscriptiontrackerapi.utils.SecurityWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -26,6 +26,8 @@ public class UserService {
   private final PasswordEncoder passwordEncoder;
 
   private final AuthorityRepository authorityRepository;
+
+  private final SecurityWrapper securityWrapper;
 
   public UserDTO create(UserDTO userDTO) {
     final var user = userMapper.asDO(userDTO);
@@ -42,8 +44,11 @@ public class UserService {
     return userMapper.asDTO(save);
   }
 
-  public void delete(String id) {
-    final var uuid = UUID.fromString(id);
-    userRepository.deleteById(uuid);
+  public void delete() {
+    userRepository.delete(securityWrapper.getUser());
+  }
+
+  public UserDTO getUser() {
+    return userMapper.asDTO(securityWrapper.getUser());
   }
 }

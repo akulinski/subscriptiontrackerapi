@@ -2,6 +2,7 @@ package com.akulinski.subscriptiontrackerapi.web.v1;
 
 import com.akulinski.subscriptiontrackerapi.core.service.SubscriptionService;
 import com.akulinski.subscriptiontrackerapi.core.service.dto.SubscriptionDTO;
+import io.swagger.annotations.ApiImplicitParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,26 @@ public class SubscriptionResource {
 
   @GetMapping("/{poster}")
   @ResponseStatus(HttpStatus.OK)
+  @ApiImplicitParam(
+          name = "Authorization",
+          value = "Access Token",
+          required = true,
+          paramType = "header",
+          dataTypeClass = String.class,
+          example = "Bearer access_token")
   public List<SubscriptionDTO> findBYPoster(@PathVariable String poster) {
     return subscriptionService.findByPoster(poster);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @ApiImplicitParam(
+          name = "Authorization",
+          value = "Access Token",
+          required = true,
+          paramType = "header",
+          dataTypeClass = String.class,
+          example = "Bearer access_token")
   public SubscriptionDTO create(@RequestBody SubscriptionDTO subscriptionDTO) {
     return subscriptionService.save(subscriptionDTO);
   }

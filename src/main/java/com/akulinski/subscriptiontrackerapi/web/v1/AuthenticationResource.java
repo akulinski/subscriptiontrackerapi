@@ -3,7 +3,7 @@ package com.akulinski.subscriptiontrackerapi.web.v1;
 import com.akulinski.subscriptiontrackerapi.core.service.JwtUserDetailsService;
 import com.akulinski.subscriptiontrackerapi.core.service.dto.JwtRequest;
 import com.akulinski.subscriptiontrackerapi.core.service.dto.JwtResponse;
-import com.akulinski.subscriptiontrackerapi.utils.JwtTokenUtil;
+import com.akulinski.subscriptiontrackerapi.utils.SecurityWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class AuthenticationResource {
 
   private final AuthenticationManager authenticationManager;
 
-  private final JwtTokenUtil jwtTokenUtil;
+  private final SecurityWrapper jwtTokenUtil;
 
   private final JwtUserDetailsService userDetailsService;
 

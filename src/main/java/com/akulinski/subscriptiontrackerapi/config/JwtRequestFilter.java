@@ -1,7 +1,7 @@
 package com.akulinski.subscriptiontrackerapi.config;
 
 import com.akulinski.subscriptiontrackerapi.core.service.JwtUserDetailsService;
-import com.akulinski.subscriptiontrackerapi.utils.JwtTokenUtil;
+import com.akulinski.subscriptiontrackerapi.utils.SecurityWrapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +24,11 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
   private final JwtUserDetailsService jwtUserDetailsService;
-  private final JwtTokenUtil jwtTokenUtil;
+  private final SecurityWrapper jwtTokenUtil;
 
   @Override
   protected void doFilterInternal(
-          HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+      HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
     final String requestTokenHeader = request.getHeader("Authorization");
     String username = null;
@@ -53,6 +53,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
             new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
+
         usernamePasswordAuthenticationToken.setDetails(
             new WebAuthenticationDetailsSource().buildDetails(request));
 

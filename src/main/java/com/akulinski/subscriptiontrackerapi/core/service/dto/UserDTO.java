@@ -1,5 +1,6 @@
 package com.akulinski.subscriptiontrackerapi.core.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,7 @@ public class UserDTO {
   private String username;
 
   @Size(min = 6)
+  @JsonIgnore
   private String password;
+
 }
