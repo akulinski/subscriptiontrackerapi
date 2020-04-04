@@ -37,11 +37,12 @@ public class FakerConfig {
               subscriptionDTO.setPeriod(faker.random().nextInt(1000));
               subscriptionDTO.setPoster("user");
               subscriptionDTO.setSiteName(faker.internet().domainName());
+              subscriptionDTO.setDueDate(faker.date().birthday().toInstant());
               subscriptionDTO.setPrice(BigDecimal.valueOf(faker.random().nextInt(1000)));
               return subscriptionDTO;
             })
         .limit(100)
-        .forEach(subscriptionService::save);
+        .forEach(subscriptionService::saveAndGetUserFromDTO);
   }
 
   private void createUser() {

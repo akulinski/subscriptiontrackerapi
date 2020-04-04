@@ -2,7 +2,7 @@ version: '2'
 services:
   subscriptiontrackerapi-postgresql:
     image: postgres:12.2
-    #volumes:
+    #volumefs:
     #     - ./postgresql/:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=subscriptiontrackerapi

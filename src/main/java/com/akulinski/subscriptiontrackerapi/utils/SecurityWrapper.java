@@ -1,10 +1,10 @@
 package com.akulinski.subscriptiontrackerapi.utils;
 
 import com.akulinski.subscriptiontrackerapi.core.domain.User;
-import com.akulinski.subscriptiontrackerapi.core.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,9 +14,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Component
+@Slf4j
 public class SecurityWrapper implements Serializable {
 
   private static final long serialVersionUID = -2550185165626007488L;
@@ -26,11 +28,8 @@ public class SecurityWrapper implements Serializable {
 
   private final String secret;
 
-  private final UserRepository userRepository;
-
-  public SecurityWrapper(@Value("${jwt.secret}") String secret, UserRepository userRepository) {
+  public SecurityWrapper(@Value("${jwt.secret}") String secret) {
     this.secret = secret;
-    this.userRepository = userRepository;
   }
 
   public String getUsernameFromToken(String token) {
@@ -39,6 +38,17 @@ public class SecurityWrapper implements Serializable {
 
   public User getUser() {
     return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  }
+
+  public Optional<User> getOptionalUser() {
+    User principal = null;
+    try {
+      principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    } catch (NullPointerException e) {
+      log.warn("No user in context");
+    }
+
+    return Optional.ofNullable(principal);
   }
 
   public Date getExpirationDateFromToken(String token) {
