@@ -7,7 +7,6 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface SubscriptionMapper {
-
   SubscriptionDTO asDTO(Subscription subscription);
 
   Subscription asDO(SubscriptionDTO subscriptionDTO);

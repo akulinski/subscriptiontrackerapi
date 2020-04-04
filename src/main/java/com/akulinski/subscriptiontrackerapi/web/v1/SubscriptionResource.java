@@ -3,6 +3,7 @@ package com.akulinski.subscriptiontrackerapi.web.v1;
 import com.akulinski.subscriptiontrackerapi.core.service.SubscriptionService;
 import com.akulinski.subscriptiontrackerapi.core.service.dto.IdDTO;
 import com.akulinski.subscriptiontrackerapi.core.service.dto.SubscriptionDTO;
+import com.akulinski.subscriptiontrackerapi.utils.SecurityWrapper;
 import io.swagger.annotations.ApiImplicitParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +17,12 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class SubscriptionResource {
+
   private final SubscriptionService subscriptionService;
 
-  @GetMapping("/{poster}")
+  private final SecurityWrapper securityWrapper;
+
+  @GetMapping
   @ResponseStatus(HttpStatus.OK)
   @ApiImplicitParam(
       name = "Authorization",
@@ -27,8 +31,8 @@ public class SubscriptionResource {
       paramType = "header",
       dataTypeClass = String.class,
       example = "Bearer access_token")
-  public List<SubscriptionDTO> findBYPoster(@PathVariable String poster) {
-    return subscriptionService.findByPoster(poster);
+  public List<SubscriptionDTO> findBYPoster() {
+    return subscriptionService.findByPoster(securityWrapper.getUser());
   }
 
   @PostMapping

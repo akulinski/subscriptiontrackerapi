@@ -41,7 +41,7 @@ public class FakerConfig {
               subscriptionDTO.setPrice(BigDecimal.valueOf(faker.random().nextInt(1000)));
               return subscriptionDTO;
             })
-        .limit(100)
+        .limit(10)
         .forEach(subscriptionService::saveAndGetUserFromDTO);
   }
 

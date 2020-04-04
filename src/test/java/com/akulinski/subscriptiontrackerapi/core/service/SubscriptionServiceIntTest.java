@@ -47,7 +47,7 @@ class SubscriptionServiceIntTest {
 
     subscriptionService.save(subscriptionDTO);
 
-    final var byPoster = subscriptionService.findByPoster("user");
+    final var byPoster = subscriptionService.findByPoster(userRepository.findByUsername("user").get());
 
     final var subscriptionDTOList =
         byPoster.stream()
@@ -74,7 +74,7 @@ class SubscriptionServiceIntTest {
         .limit(10)
         .forEach(subscriptionService::save);
 
-    final var byPoster = subscriptionService.findByPoster("user");
+    final var byPoster = subscriptionService.findByPoster(userRepository.findByUsername("user").get());
 
     final var subscriptionDTOList =
         byPoster.stream()

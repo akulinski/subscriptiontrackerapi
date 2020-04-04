@@ -19,4 +19,4 @@ server:
 
 
 jwt:
-  secret: "${JWT_SECRET:secret}"
+  secret: "${JWT_SECRET:secretaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}"

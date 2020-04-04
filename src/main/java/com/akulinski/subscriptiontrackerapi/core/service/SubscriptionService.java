@@ -1,5 +1,6 @@
 package com.akulinski.subscriptiontrackerapi.core.service;
 
+import com.akulinski.subscriptiontrackerapi.core.domain.User;
 import com.akulinski.subscriptiontrackerapi.core.repository.SubscriptionRepository;
 import com.akulinski.subscriptiontrackerapi.core.repository.UserRepository;
 import com.akulinski.subscriptiontrackerapi.core.service.dto.SubscriptionDTO;
@@ -61,12 +62,13 @@ public class SubscriptionService {
     subscriptionRepository.deleteById(uuid);
   }
 
-  public List<SubscriptionDTO> findByPoster(String poster) {
-    final var byPoster = subscriptionRepository.findByUser_Username(poster);
+  public List<SubscriptionDTO> findByPoster(User user) {
 
-    return byPoster.stream()
+    final var byUser = subscriptionRepository.findByUser(user);
+
+    return byUser.stream()
         .map(subscriptionMapper::asDTO)
-        .peek(subscriptionDTO -> subscriptionDTO.setPoster(poster))
+        .peek(subscriptionDTO -> subscriptionDTO.setPoster(user.getUsername()))
         .peek(
             subscriptionDTO ->
                 subscriptionDTO.setDaysLeft(
