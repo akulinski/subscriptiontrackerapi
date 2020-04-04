@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,7 +44,7 @@ public class SubscriptionService {
     return savedSubscription;
   }
 
-  public SubscriptionDTO saveAndGetUserFromDTO(SubscriptionDTO subscriptionDTO) {
+  public void saveAndGetUserFromDTO(SubscriptionDTO subscriptionDTO) {
     final var subscription = subscriptionMapper.asDO(subscriptionDTO);
 
     final var user = userRepository.findByUsername(subscriptionDTO.getPoster()).orElseThrow();
@@ -54,7 +55,10 @@ public class SubscriptionService {
         subscriptionMapper.asDTO(subscriptionRepository.save(subscription));
 
     savedSubscription.setPoster(user.getUsername());
-    return savedSubscription;
+  }
+
+  public void deleteSubscription(UUID uuid) {
+    subscriptionRepository.deleteById(uuid);
   }
 
   public List<SubscriptionDTO> findByPoster(String poster) {

@@ -9,11 +9,18 @@ import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.AbstractAuditable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -25,13 +32,15 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
+@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
 
   @Id @GeneratedValue private UUID id;
 
   @Column private String passwordHash;
 
-  @Column(unique = true, updatable = false, nullable = false) private String username;
+  @Column(unique = true, updatable = false, nullable = false)
+  private String username;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Set<Subscription> subscriptions;
@@ -102,4 +111,16 @@ public class User implements UserDetails {
   public int hashCode() {
     return Objects.hash(getId(), getPasswordHash(), getUsername());
   }
+
+  @CreatedDate
+  private Instant created;
+
+  @LastModifiedDate
+  private Instant modified;
+
+  @CreatedBy
+  private String createdBy;
+
+  @LastModifiedBy
+  private String modifiedBy;
 }

@@ -6,11 +6,11 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity(name = "subscription")
@@ -18,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Audited
+@EntityListeners(AuditingEntityListener.class)
 public class Subscription {
 
   @Id @GeneratedValue private UUID id;
@@ -37,19 +38,13 @@ public class Subscription {
   @EqualsAndHashCode.Exclude
   private User user;
 
-  @Column(name = "created_date")
-  @CreatedDate
-  private Date createdDate;
+  @CreatedDate private Instant created;
 
-  @Column(name = "modified_date")
-  @LastModifiedDate
-  private Date modifiedDate;
+  @LastModifiedDate private Instant modified;
 
-  @Column(name = "created_by")
   @CreatedBy
   private String createdBy;
 
-  @Column(name = "modified_by")
   @LastModifiedBy
   private String modifiedBy;
 }

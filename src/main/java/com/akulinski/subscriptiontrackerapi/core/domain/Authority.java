@@ -7,23 +7,23 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.Instant;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Audited
+@EntityListeners(AuditingEntityListener.class)
 public class Authority implements GrantedAuthority {
 
   @Id @GeneratedValue private UUID uuid;
 
+  @Enumerated(EnumType.STRING)
   private AuthorityType authorityType;
 
   @Override
@@ -35,20 +35,16 @@ public class Authority implements GrantedAuthority {
     this.authorityType = authorityType;
   }
 
-  @Column(name = "created_date")
+
   @CreatedDate
-  private Date createdDate;
+  private Instant created;
 
-  @Column(name = "modified_date")
   @LastModifiedDate
-  private Date modifiedDate;
+  private Instant modified;
 
-
-  @Column(name = "created_by")
   @CreatedBy
   private String createdBy;
 
-  @Column(name = "modified_by")
   @LastModifiedBy
   private String modifiedBy;
 }

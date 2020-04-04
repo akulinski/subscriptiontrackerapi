@@ -1,6 +1,7 @@
 package com.akulinski.subscriptiontrackerapi.web.v1;
 
 import com.akulinski.subscriptiontrackerapi.core.service.SubscriptionService;
+import com.akulinski.subscriptiontrackerapi.core.service.dto.IdDTO;
 import com.akulinski.subscriptiontrackerapi.core.service.dto.SubscriptionDTO;
 import io.swagger.annotations.ApiImplicitParam;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,12 @@ public class SubscriptionResource {
   @GetMapping("/{poster}")
   @ResponseStatus(HttpStatus.OK)
   @ApiImplicitParam(
-          name = "Authorization",
-          value = "Access Token",
-          required = true,
-          paramType = "header",
-          dataTypeClass = String.class,
-          example = "Bearer access_token")
+      name = "Authorization",
+      value = "Access Token",
+      required = true,
+      paramType = "header",
+      dataTypeClass = String.class,
+      example = "Bearer access_token")
   public List<SubscriptionDTO> findBYPoster(@PathVariable String poster) {
     return subscriptionService.findByPoster(poster);
   }
@@ -33,13 +34,26 @@ public class SubscriptionResource {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   @ApiImplicitParam(
-          name = "Authorization",
-          value = "Access Token",
-          required = true,
-          paramType = "header",
-          dataTypeClass = String.class,
-          example = "Bearer access_token")
+      name = "Authorization",
+      value = "Access Token",
+      required = true,
+      paramType = "header",
+      dataTypeClass = String.class,
+      example = "Bearer access_token")
   public SubscriptionDTO create(@RequestBody SubscriptionDTO subscriptionDTO) {
     return subscriptionService.save(subscriptionDTO);
+  }
+
+  @DeleteMapping
+  @ResponseStatus(HttpStatus.OK)
+  @ApiImplicitParam(
+      name = "Authorization",
+      value = "Access Token",
+      required = true,
+      paramType = "header",
+      dataTypeClass = String.class,
+      example = "Bearer access_token")
+  public void deleteById(@RequestBody IdDTO idDTO) {
+    subscriptionService.deleteSubscription(idDTO.getId());
   }
 }
